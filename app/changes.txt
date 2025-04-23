@@ -1,0 +1,58 @@
+---
+
+### ✅ **Loan Pricing App – Frontend Setup & Changes Log**
+
+#### 1. **Environment Variable Injection via `config.js`**
+- Created `public/config.js` to store `BACKEND_URL` dynamically at runtime:
+  ```js
+  window.RUNTIME_CONFIG = {
+    BACKEND_URL: "http://localhost:8000" // default
+  };
+  ```
+
+#### 2. **Startup Shell Script for Runtime Configuration**
+- Added a custom shell script (`entrypoint.sh`) to inject `BACKEND_URL` into `config.js`:
+  ```sh
+  #!/bin/sh
+  set -e
+  echo "Setting BACKEND_URL..."
+  BACKEND_URL=${BACKEND_URL:-http://localhost:8000}
+  echo "window.RUNTIME_CONFIG = { BACKEND_URL: \"$BACKEND_URL\" };" > /app/public/config.js
+  echo "Generated public/config.js with BACKEND_URL=$BACKEND_URL"
+  exec npm start
+  ```
+
+#### 3. **Docker Setup**
+- Used Docker to build the image and tag it:
+  ```
+  docker build -t shaizali/next_frontend:latest .
+  ```
+- Ran the container with runtime environment variable:
+  ```
+  docker run -p 3000:3000 -e BACKEND_URL=http://192.168.0.102:8000 shaizali/next_frontend:latest
+  ```
+
+#### 4. **Frontend Code Updates (page.js)**
+- Used `useEffect` to read `window.RUNTIME_CONFIG.BACKEND_URL` at runtime:
+  ```js
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.RUNTIME_CONFIG?.BACKEND_URL) {
+      setBackendURL(window.RUNTIME_CONFIG.BACKEND_URL);
+    } else {
+      setError('Backend URL not found in RUNTIME_CONFIG.');
+    }
+  }, []);
+  ```
+- On form submission, POSTs data to:
+  ```js
+  await axios.post(`${backendURL}/predict`, formData);
+  ```
+
+#### 5. **Validation**
+- Verified `http://localhost:3000/config.js` outputs the correct config.
+- Confirmed form submits to correct backend URL: `http://192.168.0.102:8000/predict`.
+
+---
+
+
+http://192.168.0.105:8000/predict

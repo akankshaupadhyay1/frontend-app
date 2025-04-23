@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: uakansha1/loan-predict-frontend:latest
+          env:
+            - name: BACKEND_URL
+              value: http://172.210.105.19:8000
+
+          ports:
+            - containerPort: 3000

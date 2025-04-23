@@ -1,0 +1,39 @@
+/* page.css */
+.main-container {
+    /* You can add any general styles for the main element here if needed */
+}
+
+.results-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.results-content {
+    text-align: center;
+}
+
+.results-heading {
+    /* Style for the heading */
+}
+
+.results-pre {
+    font-size: 24px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.results-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* You can add more styles as needed */
