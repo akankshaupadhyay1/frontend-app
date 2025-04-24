@@ -31,7 +31,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                     sh """
-                        cd target/backend-app
+                        cd target/frontend-app
                         sonar-scanner \\
                         -Dsonar.projectKey=BACKEND-APP \\
                         -Dsonar.sources=. \\
@@ -98,7 +98,7 @@ steps {
             steps {
 withCredentials([string(credentialsId: 'au-github', variable: 'GITHUB_TOKEN')]) { 
                     sh """
-                        echo "✏️ Updating frontend image tag in frontend-deployment.yaml..."
+                        echo ✏️ Updating frontend image tag in frontend-deployment.yaml..."
                         cd target/frontend-app
                         git config user.email "uakansha1@gmail.com"
                         git config user.name "akankshaupadhyay1"
