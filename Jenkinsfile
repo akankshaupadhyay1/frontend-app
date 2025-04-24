@@ -33,7 +33,7 @@ pipeline {
                     sh """
                         cd target/frontend-app
                         sonar-scanner \\
-                        -Dsonar.projectKey=BACKEND-APP \\
+                        -Dsonar.projectKey=frontend-app \\
                         -Dsonar.sources=. \\
                         -Dsonar.host.url=${SONAR_URL} \\
                         -Dsonar.login=${SONAR_AUTH_TOKEN} \\
@@ -48,7 +48,7 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                         def status = sh(script: """
-                            curl -s -u ${SONAR_AUTH_TOKEN}: "${SONAR_URL}/api/qualitygates/project_status?projectKey=BACKEND-APP" | jq -r .projectStatus.status
+                            curl -s -u ${SONAR_AUTH_TOKEN}: "${SONAR_URL}/api/qualitygates/project_status?projectKey=frontend-app" | jq -r .projectStatus.status
                         """, returnStdout: true).trim()
 
                         if (status != "OK") {
@@ -75,7 +75,7 @@ steps {
         stage('Scan Docker Image') {
             steps {
                 sh """
-                    echo "🔍 Scanning backend Docker image with Trivy..."
+                    echo "🔍 Scanning frontend Docker image with Trivy..."
                     trivy image --exit-code 1 --severity CRITICAL $DOCKER_IMAGE
                 """
             }
@@ -98,7 +98,7 @@ steps {
             steps {
 withCredentials([string(credentialsId: 'au-github', variable: 'GITHUB_TOKEN')]) { 
                     sh """
-                        echo ✏️ Updating frontend image tag in frontend-deployment.yaml..."
+                        echo "✏️ Updating frontend image tag in frontend-deployment.yaml..."
                         cd target/frontend-app
                         git config user.email "uakansha1@gmail.com"
                         git config user.name "akankshaupadhyay1"
