@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: uakansha1/loan-predict-frontend:latest
+          image: uakansha1/loan-predict-frontend:7
           env:
             - name: BACKEND_URL
               value: http://172.210.105.19:8000
